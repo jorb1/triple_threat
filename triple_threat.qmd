@@ -31,7 +31,10 @@ q3_tidy <- q3 %>%
 ```
 
 ```{r}
-#ggplot(data = q3_tidy, aes(x = year_q3, y = no3_n)) + geom_point() +
+ggplot(data = q3_tidy, aes(x = year_q3, y = no3_n)) +
+  geom_point(aes(color = "no3_n")) +
+  geom_point(aes(y = k, color = "k")) +
+  
 #facet_grid(no3_n ~ k, scales = "free_y")
 ```
 
