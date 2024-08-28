@@ -1,4 +1,11 @@
 ---
+title: "Bailey's table"
+author: "BJ"
+format: html
+editor: visual
+---
+
+---
 title: "tt_jorb"
 author: "BJ"
 format: html
@@ -32,4 +39,3 @@ q1 <- q1 |>
   mutate(year = year(sample_date)) |>
   filter(year %in% c(1988:1995))
 ```
-
