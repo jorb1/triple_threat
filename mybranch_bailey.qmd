@@ -1,0 +1,40 @@
+---
+title: "Bailey's table"
+author: "BJ"
+format: html
+editor: visual
+---
+
+---
+title: "tt_jorb"
+author: "BJ"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+
+#Read in a csv that is stored on the Bren Server
+jorb_path <- "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
+
+q1 <- read_csv(file.path(jorb_path, "QuebradaCuenca1-Bisley.csv"))
+
+```
+
+```{r}
+#Data cleaning!
+#change table headers to lower snake case
+q1 <- q1 |> clean_names()
+
+#mutate the table to have a column that incules year, and then filter by year 
+q1 <- q1 |>
+  mutate(year = year(sample_date)) |>
+  filter(year %in% c(1988:1995))
+```
