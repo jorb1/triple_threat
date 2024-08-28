@@ -19,7 +19,6 @@ library(tidyverse)
 library(janitor)
 ```
 
-
 ```{r}
 
 #Read in a csv that is stored on the Bren Server
