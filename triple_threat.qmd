@@ -17,21 +17,27 @@ library(lubridate)
 ```{r}
 # read in csv
 
-a1_path = "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
 
-q3 <- read_csv(file.path(a1_path, "QuebradaCuenca3-Bisley.csv")) %>% clean_names()
+q3_path = "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
+
+q3 <- read_csv(file.path(q3_path, "QuebradaCuenca3-Bisley.csv")) %>% clean_names()
+
 ```
 
 ```{r}
 q3_tidy <- q3 %>%
-  mutate(year = sample_date) %>%
-  filter(between(year, as.Date('1988-01-01'), as.Date('1994-12-31'))) %>%
-  select(year, no3_n, k)
+  mutate(year_q3 = sample_date) %>%
+  filter(between(year_q3, as.Date('1988-01-01'), as.Date('1994-12-31'))) %>%
+  select(year_q3, no3_n, k)
   
 ```
 
 ```{r}
-#ggplot(data = q3_tidy, aes(x = year, y = value)) + geom_point() +
- # facet_grid(no3_n ~ k, scales = "free_y")
+ggplot(data = q3_tidy, aes(x = year_q3, y = no3_n)) +
+  geom_point(aes(color = "no3_n")) +
+  geom_point(aes(y = k, color = "k")) +
+  
+#facet_grid(no3_n ~ k, scales = "free_y")
+
 ```
 
