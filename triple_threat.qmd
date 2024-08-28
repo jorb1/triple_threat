@@ -17,9 +17,11 @@ library(lubridate)
 ```{r}
 # read in csv
 
+
 q3_path = "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
 
 q3 <- read_csv(file.path(q3_path, "QuebradaCuenca3-Bisley.csv")) %>% clean_names()
+
 ```
 
 ```{r}
@@ -36,5 +38,6 @@ ggplot(data = q3_tidy, aes(x = year_q3, y = no3_n)) +
   geom_point(aes(y = k, color = "k")) +
   
 #facet_grid(no3_n ~ k, scales = "free_y")
+
 ```
 
