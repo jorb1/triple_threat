@@ -77,6 +77,7 @@ year_labels <- seq(1988, 1995, 1)
 ```{r}
 k_plot <- ggplot(all_data, aes(x = sample_date, y = k, color = sample_id)) +
   geom_line() +
+  geom_vline(xintercept = as.numeric(as.Date("1989-09-18"), linetype = "dotted")) +
   scale_color_paletteer_d("palettetown::yanma") +
   scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_label = "%Y") + theme_minimal() +
   scale_y_continuous(limits = c(0, 1.9), breaks = seq(0, 1.9, 0.3))  +
@@ -88,6 +89,7 @@ k_plot <- ggplot(all_data, aes(x = sample_date, y = k, color = sample_id)) +
 no3_plot <- ggplot(all_data, aes(x = sample_date, y = no3_n, color = sample_id)) +
   scale_color_paletteer_d("palettetown::yanma") +
   geom_line()+
+  geom_vline(xintercept = as.numeric(as.Date("1989-09-18"), linetype = "dotted")) +
   scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_label = "%Y") +
   scale_y_continuous(limits = c(0, 600), breaks = seq(0, 600, 100)) +
   theme_minimal() +
