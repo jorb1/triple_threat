@@ -69,18 +69,17 @@ q1q2q3_data_gq <- full_join(q1q2_data_gq, q3_gq)
 all_data_gq <- full_join(q1q2q3_data_gq, prm_gq)
 ```
 
-
 ## ggplot
 
-```{r}
-potass_plot <- ggplot(all_data_gq, aes(x = sample_date, y = k, color = sample_id)) +
-  geom_line()
+```{r} 
+potass_plot <- ggplot(all_data_gq, aes(x = sample_date, y = k, color = sample_id)) + geom_line()
 
-nitrate_plot <- ggplot(all_data_gq, aes(x = sample_date, y = no3_n, color = sample_id)) +
-  geom_line()
+nitrate_plot <- ggplot(all_data_gq, aes(x = sample_date, y = no3_n, color = sample_id)) + geom_line()
 
 print(nitrate_plot)
 print(potass_plot)
 
 potass_plot / nitrate_plot
+```
+
 
