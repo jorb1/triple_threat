@@ -1,0 +1,86 @@
+---
+title: "Group Question"
+author: "Triple Threat"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## Libraries
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(patchwork)
+library(paletteer)
+```
+
+## Joining Data
+
+```{r}
+tom_path <- "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
+
+q2 <- read_csv(file.path(tom_path, "QuebradaCuenca2-Bisley.csv"))
+
+prm <- read_csv(file.path(tom_path, "RioMameyesPuenteRoto.csv"))
+
+q3_path <- "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
+
+q3 <- read_csv(file.path(q3_path, "QuebradaCuenca3-Bisley.csv"))
+
+jorb_path <- "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
+
+q1 <- read_csv(file.path(jorb_path, "QuebradaCuenca1-Bisley.csv"))
+```
+
+## Cleaning Data
+
+```{r}
+q2_gq <- q2 |>
+  clean_names() |>
+  mutate(year = year(sample_date)) |> 
+  filter(year %in% c(2010:2018))
+
+
+prm_gq <- prm |> 
+  clean_names() |> 
+  mutate(year = year(sample_date)) |> 
+  filter(year %in% c(2010:2018))
+
+q1_gq <- q1 |> 
+  clean_names() |>
+  mutate(year = year(sample_date)) |>
+  filter(year %in% c(2010:2018))
+
+q3_gq <- q3 |> 
+  clean_names() |>
+  mutate(year = year(sample_date)) |>
+  filter(year %in% c(2010:2018))
+  
+```
+
+## Joining Data Sets
+
+```{r}
+q1q2_data_gq <- full_join(q1_gq, q2_gq)
+q1q2q3_data_gq <- full_join(q1q2_data_gq, q3_gq)
+all_data_gq <- full_join(q1q2q3_data_gq, prm_gq)
+```
+
+
+## ggplot
+
+```{r}
+potass_plot <- ggplot(all_data_gq, aes(x = sample_date, y = k, color = sample_id)) +
+  geom_line()
+
+nitrate_plot <- ggplot(all_data_gq, aes(x = sample_date, y = no3_n, color = sample_id)) +
+  geom_line()
+
+print(nitrate_plot)
+print(potass_plot)
+
+potass_plot / nitrate_plot
+
