@@ -72,9 +72,43 @@ all_data_gq <- full_join(q1q2q3_data_gq, prm_gq)
 ## ggplot
 
 ```{r} 
-potass_plot <- ggplot(all_data_gq, aes(x = sample_date, y = k, color = sample_id)) + geom_line()
+potass_plot <- ggplot(all_data_gq, 
+                      aes(x = sample_date, 
+                          y = k, 
+                          color = sample_id)) + 
+  geom_line()+
+  geom_vline(xintercept = as.numeric(as.Date("2017-09-16"), 
+                                     linetype = "dotted")) +
+  scale_color_paletteer_d("palettetown::yanma") +
+  scale_x_date(date_breaks = "1 year", 
+               date_minor_breaks = "1 month", 
+               date_label = "%Y") + theme_minimal() +
+  scale_y_continuous(limits = c(0, 1.9), 
+                     breaks = seq(0, 1.9, 0.3))  +
+  labs(y = "K mg/L", color = "Watershed Sites") +
+  theme(axis.title.x=element_blank(),
+        legend.position= "blank")
 
-nitrate_plot <- ggplot(all_data_gq, aes(x = sample_date, y = no3_n, color = sample_id)) + geom_line()
+nitrate_plot <- ggplot(all_data_gq, 
+                       aes(x = sample_date, 
+                           y = no3_n, 
+                           color = sample_id)) + 
+  geom_line() +
+  scale_color_paletteer_d("palettetown::yanma") +
+  geom_vline(xintercept = as.numeric(as.Date("2017-09-16"), 
+                                     linetype = "dotted")) +
+  scale_x_date(date_breaks = "1 year", 
+               date_minor_breaks = "1 month", 
+               date_label = "%Y") +
+  scale_y_continuous(limits = c(0, 600), 
+                     breaks = seq(0, 600, 100)) +
+  theme_minimal() +
+  theme(legend.position = c(0.97, 0.75)) +
+  theme(legend.key.size = unit(0.5, "cm")) +
+  labs( x = "Sample Year",
+        y = "No3-N ug/L",
+        color = "Watershed Sites")
+  
 
 print(nitrate_plot)
 print(potass_plot)
