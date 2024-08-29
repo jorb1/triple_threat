@@ -12,7 +12,6 @@ library(tidyverse)
 library(janitor)
 ```
 
-
 ```{r}
 
 #Read in a csv that is stored on the Bren Server
@@ -32,4 +31,3 @@ q1 <- q1 |>
   mutate(year = year(sample_date)) |>
   filter(year %in% c(1988:1995))
 ```
-
