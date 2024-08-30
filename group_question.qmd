@@ -1,0 +1,119 @@
+---
+title: "Group Question"
+author: "Triple Threat"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## Libraries
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(patchwork)
+library(paletteer)
+```
+
+## Joining Data
+
+```{r}
+tom_path <- "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
+
+q2 <- read_csv(file.path(tom_path, "QuebradaCuenca2-Bisley.csv"))
+
+prm <- read_csv(file.path(tom_path, "RioMameyesPuenteRoto.csv"))
+
+q3_path <- "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
+
+q3 <- read_csv(file.path(q3_path, "QuebradaCuenca3-Bisley.csv"))
+
+jorb_path <- "/courses/EDS214/group_project/2024/triple_threat/Raw_Data"
+
+q1 <- read_csv(file.path(jorb_path, "QuebradaCuenca1-Bisley.csv"))
+```
+
+## Cleaning Data
+
+```{r}
+q2_gq <- q2 |>
+  clean_names() |>
+  mutate(year = year(sample_date)) |> 
+  filter(year %in% c(2010:2018))
+
+
+prm_gq <- prm |> 
+  clean_names() |> 
+  mutate(year = year(sample_date)) |> 
+  filter(year %in% c(2010:2018))
+
+q1_gq <- q1 |> 
+  clean_names() |>
+  mutate(year = year(sample_date)) |>
+  filter(year %in% c(2010:2018))
+
+q3_gq <- q3 |> 
+  clean_names() |>
+  mutate(year = year(sample_date)) |>
+  filter(year %in% c(2010:2018))
+  
+```
+
+## Joining Data Sets
+
+```{r}
+q1q2_data_gq <- full_join(q1_gq, q2_gq)
+q1q2q3_data_gq <- full_join(q1q2_data_gq, q3_gq)
+all_data_gq <- full_join(q1q2q3_data_gq, prm_gq)
+```
+
+## ggplot
+
+```{r} 
+potass_plot <- ggplot(all_data_gq, 
+                      aes(x = sample_date, 
+                          y = k, 
+                          color = sample_id)) + 
+  geom_line()+
+  geom_vline(xintercept = as.numeric(as.Date("2017-09-16"), 
+                                     linetype = "dotted")) +
+  scale_color_paletteer_d("palettetown::yanma") +
+  scale_x_date(date_breaks = "1 year", 
+               date_minor_breaks = "1 month", 
+               date_label = "%Y") + theme_minimal() +
+  scale_y_continuous(limits = c(0, 1.9), 
+                     breaks = seq(0, 1.9, 0.3))  +
+  labs(y = "K mg/L", color = "Watershed Sites") +
+  theme(axis.title.x=element_blank(),
+        legend.position= "blank")
+
+nitrate_plot <- ggplot(all_data_gq, 
+                       aes(x = sample_date, 
+                           y = no3_n, 
+                           color = sample_id)) + 
+  geom_line() +
+  scale_color_paletteer_d("palettetown::yanma") +
+  geom_vline(xintercept = as.numeric(as.Date("2017-09-16"), 
+                                     linetype = "dotted")) +
+  scale_x_date(date_breaks = "1 year", 
+               date_minor_breaks = "1 month", 
+               date_label = "%Y") +
+  scale_y_continuous(limits = c(0, 600), 
+                     breaks = seq(0, 600, 100)) +
+  theme_minimal() +
+  theme(legend.position = c(0.97, 0.75)) +
+  theme(legend.key.size = unit(0.5, "cm")) +
+  labs( x = "Sample Year",
+        y = "No3-N ug/L",
+        color = "Watershed Sites")
+  
+
+print(nitrate_plot)
+print(potass_plot)
+
+potass_plot / nitrate_plot
+```
+
+
