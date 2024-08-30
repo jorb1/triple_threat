@@ -67,39 +67,40 @@ q1q2q3_data <- full_join(q1q2_data, q3_tidy)
 all_data <- full_join(q1q2q3_data, prm)
 ```
 
-## ggplot
+## GGplot
 
 ```{r}
-year_labels <- seq(1988, 1995, 1)
-```
-
-
-```{r}
+# Potassium Plot
 k_plot <- ggplot(all_data, aes(x = sample_date, y = k, color = sample_id)) +
   geom_line() +
-  geom_vline(xintercept = as.numeric(as.Date("1989-09-18"), linetype = "dotted")) +
+  geom_vline(xintercept = as.numeric(as.Date("1989-09-18"), 
+                                     linetype = "dotted")) +
   scale_color_paletteer_d("palettetown::yanma") +
-  scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_label = "%Y") + theme_minimal() +
+  scale_x_date(date_breaks = "1 year", 
+               date_minor_breaks = "1 month", 
+               date_label = "%Y") + 
+  theme_minimal() +
   scale_y_continuous(limits = c(0, 1.9), breaks = seq(0, 1.9, 0.3))  +
   labs(y = "K mg/L", color = "Watershed Sites") +
   theme(axis.title.x=element_blank(),
         legend.position= "blank")
   
-
+# Nitrate Plot
 no3_plot <- ggplot(all_data, aes(x = sample_date, y = no3_n, color = sample_id)) +
   scale_color_paletteer_d("palettetown::yanma") +
   geom_line()+
-  geom_vline(xintercept = as.numeric(as.Date("1989-09-18"), linetype = "dotted")) +
-  scale_x_date(date_breaks = "1 year", date_minor_breaks = "1 month", date_label = "%Y") +
+  geom_vline(xintercept = as.numeric(as.Date("1989-09-18"), 
+                                     linetype = "dotted")) +
+  scale_x_date(date_breaks = "1 year", 
+               date_minor_breaks = "1 month", 
+               date_label = "%Y") +
   scale_y_continuous(limits = c(0, 600), breaks = seq(0, 600, 100)) +
   theme_minimal() +
   theme(legend.position = c(0.9, 0.75)) +
   labs( x = "Sample Year",
         y = "No3-N ug/L",
         color = "Watershed Sites")
-  
-  
 
-
+# Plot format 
 k_plot / no3_plot
 ```
