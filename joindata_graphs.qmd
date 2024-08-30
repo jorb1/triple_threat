@@ -102,4 +102,5 @@ no3_plot <- ggplot(all_data, aes(x = sample_date, y = no3_n, color = sample_id))
 
 
 k_plot / no3_plot
+
 ```
