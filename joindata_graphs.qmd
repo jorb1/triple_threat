@@ -67,7 +67,7 @@ q1q2q3_data <- full_join(q1q2_data, q3_tidy)
 all_data <- full_join(q1q2q3_data, prm)
 ```
 
-## ggplot
+## Ggplot
 
 ```{r}
 year_labels <- seq(1988, 1995, 1)
